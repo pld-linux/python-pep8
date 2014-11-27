@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_with	tests	# do not perform "make test"
 %bcond_without	doc	# Build API documentation
-%bcond_without  python2 # CPython 2.x module
-%bcond_without  python3 # CPython 3.x module
+%bcond_without	python2 # CPython 2.x module
+%bcond_without	python3 # CPython 3.x module
 
 %define		module	pep8
 Summary:	Python style guide checker
@@ -20,12 +20,12 @@ BuildRequires:	rpmbuild(macros) >= 1.219
 %if %{with python2}
 BuildRequires:	python-Sphinx
 BuildRequires:	python-distribute
-Requires:	python-modules
 %endif
 %if %{with python3}
 BuildRequires:	python3-Sphinx
 BuildRequires:	python3-distribute
 %endif
+Requires:	python-modules
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -73,23 +73,22 @@ rm -rf _build/html/_sources
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %if %{with python2}
 %{__python} setup.py \
-		build --build-base build-2 \
-		install --skip-build \
-		--optimize=2 \
-		--root=$RPM_BUILD_ROOT
+	build --build-base build-2 \
+	install --skip-build \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 
 %py_postclean
 %endif
 
 %if %{with python3}
 %{__python3} setup.py \
-		build --build-base build-3 \
-		install --skip-build \
-		--optimize=2 \
-		--root=$RPM_BUILD_ROOT
+	build --build-base build-3 \
+	install --skip-build \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
 %endif
 
 %clean
