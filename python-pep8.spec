@@ -18,7 +18,7 @@ Source0:	https://pypi.python.org/packages/source/p/pep8/%{module}-%{version}.tar
 # Source0-md5:	c7a3f57d832484a6295164661fbb1335
 URL:		https://pypi.python.org/pypi/pep8
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 %if %{with python2}
 BuildRequires:	python-setuptools
 %endif
