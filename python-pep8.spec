@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	tests	# perform "make test"
+%bcond_without	tests	# test target
 %bcond_without	doc	# Build API documentation
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
@@ -9,13 +9,13 @@
 Summary:	Python style guide checker
 Summary(pl.UTF-8):	Sprawdzanie zgodności z poradnikiem stylu kodowania w Pythonie
 Name:		python-%{module}
-Version:	1.6.2
-Release:	4
+Version:	1.7.0
+Release:	1
 License:	MIT
 Group:		Libraries/Python
-#Source0Download: https://pypi.python.org/pypi/pep8
+#Source0Download: https://pypi.python.org/simple/pep8/
 Source0:	https://pypi.python.org/packages/source/p/pep8/%{module}-%{version}.tar.gz
-# Source0-md5:	c7a3f57d832484a6295164661fbb1335
+# Source0-md5:	2b03109b0618afe3b04b3e63b334ac9d
 URL:		https://pypi.python.org/pypi/pep8
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
@@ -78,7 +78,7 @@ Dokumentacja API modułu pep8.
 %if %{with doc}
 cd docs
 %{__make} -j1 html
-rm -rf _build/html/_sources
+%{__rm} -r _build/html/_sources
 %endif
 
 %install
@@ -86,11 +86,17 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %py_install
 
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/pep8{,-2}
 %py_postclean
 %endif
 
 %if %{with python3}
 %py3_install
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/pep8{,-3}
+%endif
+
+%if %{with python2}
+ln -s pep8-2 $RPM_BUILD_ROOT%{_bindir}/pep8
 %endif
 
 %clean
@@ -101,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc CHANGES.txt README.rst
 %attr(755,root,root) %{_bindir}/pep8
+%attr(755,root,root) %{_bindir}/pep8-2
 %{py_sitescriptdir}/pep8.py[co]
 %if "%{py_ver}" > "2.4"
 %{py_sitescriptdir}/pep8-%{version}-py*.egg-info
@@ -111,6 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-%{module}
 %defattr(644,root,root,755)
 %doc CHANGES.txt README.rst
+%attr(755,root,root) %{_bindir}/pep8-3
 %{py3_sitescriptdir}/pep8.py
 %{py3_sitescriptdir}/__pycache__/pep8.cpython-*.py[co]
 %{py3_sitescriptdir}/pep8-%{version}-py*.egg-info
