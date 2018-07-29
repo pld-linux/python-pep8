@@ -9,16 +9,16 @@
 Summary:	Python style guide checker
 Summary(pl.UTF-8):	Sprawdzanie zgodności z poradnikiem stylu kodowania w Pythonie
 Name:		python-%{module}
-Version:	1.7.0
-Release:	3
+Version:	1.7.1
+Release:	1
 License:	MIT
 Group:		Libraries/Python
-#Source0Download: https://pypi.python.org/simple/pep8/
-Source0:	https://pypi.python.org/packages/source/p/pep8/%{module}-%{version}.tar.gz
-# Source0-md5:	2b03109b0618afe3b04b3e63b334ac9d
-URL:		https://pypi.python.org/pypi/pep8
+#Source0Download: https://pypi.org/simple/pep8/
+Source0:	https://files.pythonhosted.org/packages/source/p/pep8/%{module}-%{version}.tar.gz
+# Source0-md5:	603821d06db945c71d811b5a8d78423c
+URL:		https://pypi.org/project/pep8/
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
+BuildRequires:	rpmbuild(macros) >= 1.714
 %if %{with python2}
 BuildRequires:	python-setuptools
 %endif
@@ -67,6 +67,9 @@ Dokumentacja API modułu pep8.
 %setup -q -n %{module}-%{version}
 
 %build
+# pep8 issues deprecance warning, which causes some tests to fail
+export PYTHONWARNINGS=ignore
+
 %if %{with python2}
 %py_build %{?with_tests:test}
 %endif
@@ -76,9 +79,7 @@ Dokumentacja API modułu pep8.
 %endif
 
 %if %{with doc}
-cd docs
-%{__make} -j1 html
-%{__rm} -r _build/html/_sources
+%{__make} -C docs -j1 html
 %endif
 
 %install
@@ -127,5 +128,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with doc}
 %files apidocs
 %defattr(644,root,root,755)
-%doc docs/_build/html/*
+%doc docs/_build/html/{_modules,_static,*.html,*.js}
 %endif
