@@ -1,0 +1,11 @@
+--- pep8-1.7.1/pep8.py.orig	2017-10-24 16:38:06.000000000 +0200
++++ pep8-1.7.1/pep8.py	2020-01-12 20:35:19.209557017 +0100
+@@ -107,7 +107,7 @@
+ RERAISE_COMMA_REGEX = re.compile(r'raise\s+\w+\s*,.*,\s*\w+\s*$')
+ ERRORCODE_REGEX = re.compile(r'\b[A-Z]\d{3}\b')
+ DOCSTRING_REGEX = re.compile(r'u?r?["\']')
+-EXTRANEOUS_WHITESPACE_REGEX = re.compile(r'[[({] | []}),;:]')
++EXTRANEOUS_WHITESPACE_REGEX = re.compile(r'[\[({] | [\]}),;:]')
+ WHITESPACE_AFTER_COMMA_REGEX = re.compile(r'[,;:]\s*(?:  |\t)')
+ COMPARE_SINGLETON_REGEX = re.compile(r'(\bNone|\bFalse|\bTrue)?\s*([=!]=)'
+                                      r'\s*(?(1)|(None|False|True))\b')

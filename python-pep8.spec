@@ -10,12 +10,14 @@ Summary:	Python style guide checker
 Summary(pl.UTF-8):	Sprawdzanie zgodności z poradnikiem stylu kodowania w Pythonie
 Name:		python-%{module}
 Version:	1.7.1
-Release:	2
+Release:	3
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/pep8/
 Source0:	https://files.pythonhosted.org/packages/source/p/pep8/%{module}-%{version}.tar.gz
 # Source0-md5:	603821d06db945c71d811b5a8d78423c
+Patch0:		%{name}-nestedset.patch
+Patch1:		%{name}-tokenize.patch
 URL:		https://pypi.org/project/pep8/
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -34,9 +36,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 pep8 is a tool to check your Python code against some of the style
 conventions in PEP 8.
 
+Note: it's deprecated in favour on pycodestyle.
+
 %description -l pl.UTF-8
 pep8 to narzędzie do sprawdzania kodu w Pythonie względem niektórych
 konwencji stylistycznych opisanych w PEP 8.
+
+Uwaga: to narzędzie jest przestarzałe, nowszą wersją jest pycodestyle.
 
 %package -n python3-%{module}
 Summary:	Python style guide checker
@@ -48,9 +54,13 @@ Requires:	python3-modules
 pep8 is a tool to check your Python code against some of the style
 conventions in PEP 8.
 
+Note: it's deprecated in favour on pycodestyle.
+
 %description -n python3-%{module} -l pl.UTF-8
 pep8 to narzędzie do sprawdzania kodu w Pythonie względem niektórych
 konwencji stylistycznych opisanych w PEP 8.
+
+Uwaga: to narzędzie jest przestarzałe, nowszą wersją jest pycodestyle.
 
 %package apidocs
 Summary:	API documentation for pep8 module
@@ -65,17 +75,27 @@ Dokumentacja API modułu pep8.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
+%patch1 -p1
 
 %build
 # pep8 issues deprecance warning, which causes some tests to fail
 export PYTHONWARNINGS=ignore
 
 %if %{with python2}
-%py_build %{?with_tests:test}
+%py_build
+
+%if %{with tests}
+%{__python} -m testsuite.test_all
+%endif
 %endif
 
 %if %{with python3}
-%py3_build %{?with_tests:test}
+%py3_build
+
+%if %{with tests}
+%{__python3} -m testsuite.test_all
+%endif
 %endif
 
 %if %{with doc}
