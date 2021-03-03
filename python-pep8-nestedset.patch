@@ -1,6 +1,7 @@
---- pep8-1.7.1/pep8.py.orig	2017-10-24 16:38:06.000000000 +0200
-+++ pep8-1.7.1/pep8.py	2020-01-12 20:35:19.209557017 +0100
-@@ -107,7 +107,7 @@
+diff -urNp -x '*.orig' pep8-1.7.1.org/pep8.py pep8-1.7.1/pep8.py
+--- pep8-1.7.1.org/pep8.py	2017-10-24 16:38:06.000000000 +0200
++++ pep8-1.7.1/pep8.py	2021-03-03 12:58:18.010231361 +0100
+@@ -107,7 +107,7 @@ RAISE_COMMA_REGEX = re.compile(r'raise\s
  RERAISE_COMMA_REGEX = re.compile(r'raise\s+\w+\s*,.*,\s*\w+\s*$')
  ERRORCODE_REGEX = re.compile(r'\b[A-Z]\d{3}\b')
  DOCSTRING_REGEX = re.compile(r'u?r?["\']')
