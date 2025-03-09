@@ -75,8 +75,8 @@ Dokumentacja API modułu pep8.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
 
 %build
 # pep8 issues deprecance warning, which causes some tests to fail
