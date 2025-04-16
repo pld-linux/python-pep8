@@ -10,7 +10,7 @@ Summary:	Python style guide checker
 Summary(pl.UTF-8):	Sprawdzanie zgodności z poradnikiem stylu kodowania w Pythonie
 Name:		python-%{module}
 Version:	1.7.1
-Release:	9
+Release:	10
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/pep8/
@@ -18,6 +18,7 @@ Source0:	https://files.pythonhosted.org/packages/source/p/pep8/%{module}-%{versi
 # Source0-md5:	603821d06db945c71d811b5a8d78423c
 Patch0:		%{name}-nestedset.patch
 Patch1:		%{name}-tokenize.patch
+Patch2:		%{name}-unittest.patch
 URL:		https://pypi.org/project/pep8/
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
@@ -77,6 +78,7 @@ Dokumentacja API modułu pep8.
 %setup -q -n %{module}-%{version}
 %patch -P 0 -p1
 %patch -P 1 -p1
+%patch -P 2 -p1
 
 %build
 # pep8 issues deprecance warning, which causes some tests to fail
